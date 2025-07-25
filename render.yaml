@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: voicevox-engine
+    env: docker
+    plan: free
+    autoDeploy: true
