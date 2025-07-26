@@ -1,3 +1,3 @@
-FROM voicevox/voicevox_engine:cpu-ubuntu20.04-latest
+FROM yourdockerhub/voicevox:latest
 EXPOSE 50021
 CMD ["voicevox_engine"]
