@@ -1,28 +1,27 @@
+# ベースイメージは公式Python（必要な依存を入れるため）
 FROM python:3.10-slim
 
-# 必要な依存パッケージをすべてインストール
-RUN apt-get update && apt-get install -y \
-    git \
-    curl \
-    ffmpeg \
-    unzip \
-    cmake \
-    make \
-    build-essential \
-    && rm -rf /var/lib/apt/lists/*
-
-# 作業ディレクトリ作成
+# 作業ディレクトリを作成
 WORKDIR /app
 
-# VOICEVOXエンジンをGitHubからクローン
-RUN git clone --depth 1 https://github.com/VOICEVOX/voicevox_engine.git .
+# 必要なシステムパッケージ
+RUN apt-get update && apt-get install -y \
+    git \
+    ffmpeg \
+    curl \
+    unzip \
+    && rm -rf /var/lib/apt/lists/*
 
-# Pythonパッケージをインストール
-RUN pip install --upgrade pip && \
-    pip install -r requirements.txt && \
-    pip install --no-build-isolation .
+# VOICEVOX ENGINE をクローン（最新のmainを取得）
+RUN git clone --depth=1 https://github.com/VOICEVOX/voicevox_engine.git /app/voicevox_engine
 
-# ポート開放
+# pip用のセットアップファイル（同階層の setup.py をコピー）
+COPY setup.py ./
+
+# Python依存をインストール（必要ならrequirements.txtに変更も可能）
+RUN pip install --upgrade pip && pip install .
+
+# ポートを開放
 EXPOSE 50021
 
 # 起動コマンド
