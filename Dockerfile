@@ -8,7 +8,7 @@ RUN apt-get update && \
 WORKDIR /app
 
 # （必要なら）run.py をコピー
-# COPY run.py /app/
+COPY run.py /app/
 
 EXPOSE 50021
 
