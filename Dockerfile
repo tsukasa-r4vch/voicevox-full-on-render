@@ -1,27 +1,29 @@
-# ベースイメージ：Pythonと必要なライブラリを含む軽量Debian系
 FROM python:3.10-slim
 
-# 必要パッケージのインストール
+# 必要な依存パッケージをすべてインストール
 RUN apt-get update && apt-get install -y \
     git \
     curl \
     ffmpeg \
     unzip \
+    cmake \
+    make \
+    build-essential \
     && rm -rf /var/lib/apt/lists/*
 
 # 作業ディレクトリ作成
 WORKDIR /app
 
-# VOICEVOX ENGINEのクローン
+# VOICEVOXエンジンをGitHubからクローン
 RUN git clone --depth 1 https://github.com/VOICEVOX/voicevox_engine.git .
 
-# Pythonパッケージのインストール
+# Pythonパッケージをインストール
 RUN pip install --upgrade pip && \
     pip install -r requirements.txt && \
     pip install .
 
-# ポート公開
+# ポート開放
 EXPOSE 50021
 
-# 起動コマンド（RenderがCMDを使わない場合はRender側で指定）
+# 起動コマンド
 CMD ["uvicorn", "voicevox_engine.run:app", "--host", "0.0.0.0", "--port", "50021"]
