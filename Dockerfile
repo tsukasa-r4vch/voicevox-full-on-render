@@ -20,7 +20,7 @@ RUN git clone --depth 1 https://github.com/VOICEVOX/voicevox_engine.git .
 # Pythonパッケージをインストール
 RUN pip install --upgrade pip && \
     pip install -r requirements.txt && \
-    pip install .
+    pip install --no-build-isolation .
 
 # ポート開放
 EXPOSE 50021
