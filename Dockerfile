@@ -5,4 +5,4 @@ FROM voicevox/voicevox_engine:latest
 EXPOSE 50021
 
 # Renderで起動コマンドを指定するならCMDは不要ですが、念のため
-CMD ["python3", "-m", "voicevox_engine.run", "--host", "0.0.0.0", "--port", "50021"]
+CMD ["python", "-m", "voicevox_engine.run", "--host", "0.0.0.0", "--port", "50021"]
